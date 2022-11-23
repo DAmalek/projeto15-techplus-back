@@ -16,11 +16,7 @@ app.use(express.json());
 app.use(router)
 app.use(signUpRouters)
 
-export const userSchema = joi.object({
-    name: joi.string().min(3).required(),
-    email: joi.string().email().required(),
-    password: joi.string().min(3).required(),
-})
+
 
 app.listen(4000, () => console.log("Server running in port: 4000"))
 // app.listen(process.env.PORT, () => {

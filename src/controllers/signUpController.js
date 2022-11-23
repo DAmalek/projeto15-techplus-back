@@ -1,17 +1,10 @@
-import { userSchema } from "../index.js"
+
 import { usersCollection } from "../database/db.js"
 import bcrypt from "bcrypt"
 
 export async function postSignUp(req, res) {
     //nome, e-mail e senha
-
     const user = req.body
-
-    const validation = userSchema.validate(user)
-
-    if (validation.error){
-        return res.sendStatus(422)
-    }
 
     try {
         const passwordHashed = bcrypt.hashSync(user.password, 10);
