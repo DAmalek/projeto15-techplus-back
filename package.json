@@ -12,9 +12,11 @@
   "name": "projeto15-e-commerce-back",
   "description": "",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
+    "start": "node .src/index.js",
     "dev": "nodemon src/index.js"
   },
   "repository": {
