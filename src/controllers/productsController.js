@@ -1,13 +1,14 @@
 import products from "../productsData/products.js";
 import { productsCollection } from "../database/db.js"
 
-export async function createProductCollection(res, req){
+export async function createProductCollection(req, res){
+    console.log(products)
     try{
         await productsCollection.insertMany(products);
         console.log("Data inserted successfully")
-        res.sendStatus(201);
+        return res.sendStatus(201);
     } catch(error){
         console.log(error.message);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 }
