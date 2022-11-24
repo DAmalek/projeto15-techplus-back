@@ -4,7 +4,7 @@ import bcrypt from "bcrypt"
 
 export async function postSignUp(req, res) {
     //nome, e-mail e senha
-    const user = req.body
+    res.locals.user = user;
 
     try {
         const passwordHashed = bcrypt.hashSync(user.password, 10);
