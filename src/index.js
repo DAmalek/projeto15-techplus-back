@@ -8,6 +8,7 @@ dotenv.config()
 
 import signUpRouters from "./routes/signUpRoutes.js"
 import signInRouters from './routes/signInRoutes.js'
+import productRouters from './routes/productsRoutes.js'
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(router)
 app.use(signUpRouters)
 app.use(signInRouters)
+app.use(productRouters)
 
 
 
