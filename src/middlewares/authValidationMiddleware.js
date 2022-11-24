@@ -1,5 +1,6 @@
+import { usersCollection } from "../database/db.js";
 import { userSchema } from "../models/userModel.js";
-
+import bcrypt from "bcrypt";
 export function userSchemaValidation(req, res, next) {
   const user = req.body;
 
@@ -11,6 +12,27 @@ export function userSchemaValidation(req, res, next) {
   }
 
   res.locals.user = user;
+
+  next();
+}
+
+export async function signBodyValidation(req, res, next) {
+  const { email, password } = req.body;
+
+  try {
+    const user = await usersCollection.findOne({ email });
+    if (!user) {
+      res.senStatus(401);
+    }
+    const passwordOk = bcrypt.compareSync(password, user.password);
+    if (!passwordOk) {
+        res.sendStatus(401)
+    }
+    res.locals.user = user;
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 
   next();
 }
