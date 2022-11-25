@@ -16,8 +16,7 @@ export async function createProductCollection(req, res){
 
 export async function getProductCollection(req, res){
     try{ 
-        const showProducts = await productsCollection.find({}).toArray();;
-
+        const showProducts = await productsCollection.find({}).toArray();
         return res.send(showProducts);
     } catch(error){
         console.log(error);
