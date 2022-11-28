@@ -1,4 +1,4 @@
-import { usersCollection } from "../database/db.js";
+import { sessionsCollection, usersCollection } from "../database/db.js";
 import { userSchema } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 export function userSchemaValidation(req, res, next) {
@@ -22,17 +22,37 @@ export async function signBodyValidation(req, res, next) {
   try {
     const user = await usersCollection.findOne({ email });
     if (!user) {
-      res.senStatus(401);
+      res.senStatus(401).send("senha ou usuario incorretos");
     }
     const passwordOk = bcrypt.compareSync(password, user.password);
     if (!passwordOk) {
-        res.sendStatus(401)
+      res.sendStatus(401).send("senha ou usuario incorretos");
     }
+
     res.locals.user = user;
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
   }
 
+  next();
+}
+
+export async function RoutesValidation(req, res, next) {
+  const { authorization } = req.headers;
+  const token = authorization?.replace("Bearer ", "");
+
+  if (!token) {
+    res.sendStatus(401).send("user deslogado ou invalido");
+  }
+
+  try {
+    const sessions = await sessionsCollection.findOne({ token });
+    const user = await usersCollection.findOne({ _id: sessions.userId });
+    res.locals.user = user;
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
   next();
 }
